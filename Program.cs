@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using minimal_api.Dominio.DTOs;
 using minimal_api.Dominio.Entidades;
+using minimal_api.Dominio.Enums;
 using minimal_api.Dominio.Interfaces;
 using minimal_api.Dominio.ModelViews;
 using minimal_api.Dominio.Servicos;
@@ -43,15 +44,76 @@ app.MapPost("/administradores/login", ([FromBody] LoginDTO loginDTO, IAdministra
   }
   return Results.Unauthorized();
 }).WithTags("Administradores");
+
+app.MapPost("/administradores", ([FromBody] AdministradorDTO administradorDTO, IAdministradorServico administradorServico) =>
+{
+  var validacao = new ErrosDeValidacao { Mensagens = new List<string>() };
+  if (string.IsNullOrEmpty(administradorDTO.Email))
+    validacao.Mensagens.Add("O email não pode ser um campo vazio");
+
+  if (string.IsNullOrEmpty(administradorDTO.Senha))
+    validacao.Mensagens.Add("A senha não pode ser um campo vazio");
+
+  if (administradorDTO.Perfil == null)
+    validacao.Mensagens.Add("O perfil não pode ser um campo vazio");
+
+  if (validacao.Mensagens.Count() > 0)
+    return Results.BadRequest(validacao);
+
+  var administrador = new Administrador
+  {
+    Email = administradorDTO.Email,
+    Senha = administradorDTO.Senha,
+    Perfil = administradorDTO.Perfil.ToString() ?? Perfil.Editor.ToString()
+  };
+  administradorServico.Incluir(administrador);
+
+  var adm = new AdministradorModelView
+  {
+    Id = administrador.Id,
+    Email = administrador.Email,
+    Perfil = administrador.Perfil
+  };
+  return Results.Created($"/administradores/{administrador.Id}", adm);
+
+}).WithTags("Administradores");
+
+app.MapGet("/administradores", ([FromQuery] int? pagina, IAdministradorServico administradorServico) =>
+{
+  var adms = new List<AdministradorModelView>();
+  var administradores = administradorServico.Todos(pagina);
+  foreach (var adm in administradores)
+  {
+    adms.Add(new AdministradorModelView
+    {
+      Id = adm.Id,
+      Email = adm.Email,
+      Perfil = adm.Perfil
+    });
+  }
+  return Results.Ok(adms);
+}).WithTags("Administradores");
+
+app.MapGet("/administradores/{id}", ([FromRoute] int id, IAdministradorServico administradorServico) =>
+{
+  var administrador = administradorServico.BuscaPorId(id);
+  if (administrador == null) return Results.NotFound();
+
+  var adm = new AdministradorModelView
+  {
+    Id = administrador.Id,
+    Email = administrador.Email,
+    Perfil = administrador.Perfil
+  };
+
+  return Results.Ok(adm);
+}).WithTags("Administradores");
 #endregion
 
 #region Veiculos
 ErrosDeValidacao validaDTO(VeiculoDTO veiculoDTO)
 {
-  var validacao = new ErrosDeValidacao
-  {
-    Mensagens = new List<string>()
-  };
+  var validacao = new ErrosDeValidacao { Mensagens = new List<string>() };
 
   if (string.IsNullOrEmpty(veiculoDTO.Nome))
     validacao.Mensagens.Add("O nome não pode ser um campo vazio");
