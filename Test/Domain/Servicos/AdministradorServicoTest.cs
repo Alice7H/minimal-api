@@ -12,7 +12,6 @@ namespace Test.Domain.Servicos
     {
         private DbContexto CriarContextoDeTeste()
         {
-            // configurar o CofigurationBuilder
             var builder = new ConfigurationBuilder()
             .SetBasePath(Directory.GetCurrentDirectory())
             .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
@@ -27,7 +26,7 @@ namespace Test.Domain.Servicos
         {
             // Arrange
             var contexto = CriarContextoDeTeste();
-            contexto.Database.ExecuteSqlRaw("TRUNCATE TABLE Administradores"); // <- limpando a tabela.
+            contexto.Database.ExecuteSqlRaw("TRUNCATE TABLE Administradores");
 
             var adm = new Administrador();
             adm.Id = 1;
@@ -48,7 +47,7 @@ namespace Test.Domain.Servicos
         {
             // Arrange
             var contexto = CriarContextoDeTeste();
-            contexto.Database.ExecuteSqlRaw("TRUNCATE TABLE Administradores"); // <- limpando a tabela.
+            contexto.Database.ExecuteSqlRaw("TRUNCATE TABLE Administradores");
 
             var adm = new Administrador();
             adm.Id = 1;
@@ -71,7 +70,7 @@ namespace Test.Domain.Servicos
         {
             // Arrange
             var contexto = CriarContextoDeTeste();
-            contexto.Database.ExecuteSqlRaw("TRUNCATE TABLE Administradores"); // <- limpando a tabela.
+            contexto.Database.ExecuteSqlRaw("TRUNCATE TABLE Administradores");
 
             var adm = new Administrador();
             adm.Id = 1;

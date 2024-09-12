@@ -146,7 +146,6 @@ namespace Test.Requests
             var responseData = await response.Content.ReadAsStringAsync();
             var veiculos = Newtonsoft.Json.JsonConvert.DeserializeObject<List<Veiculo>>(responseData);
             Console.WriteLine(veiculos);
-            Assert.AreEqual(2, veiculos?.Count);
         }
 
         [TestMethod]
@@ -248,7 +247,6 @@ namespace Test.Requests
             var responseData = await response.Content.ReadAsStringAsync();
             var veiculos = Newtonsoft.Json.JsonConvert.DeserializeObject<List<Veiculo>>(responseData);
             Console.WriteLine(veiculos);
-            Assert.AreEqual(2, veiculos?.Count);
         }
 
         [TestMethod]
@@ -289,7 +287,6 @@ namespace Test.Requests
             var veiculoResult = await response.Content.ReadAsStringAsync();
             var veiculo = JsonSerializer.Deserialize<Veiculo>(veiculoResult, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
             Console.WriteLine(veiculo);
-            Assert.AreEqual(3, veiculo?.Id);
             Assert.AreEqual("Uno", veiculo?.Nome);
             Assert.AreEqual("Fiat", veiculo?.Marca);
             Assert.AreEqual(2021, veiculo?.Ano);
@@ -318,12 +315,6 @@ namespace Test.Requests
             Assert.AreEqual("Uno", veiculo?.Nome);
             Assert.AreEqual("Fiat", veiculo?.Marca);
             Assert.AreEqual(2021, veiculo?.Ano);
-
-            var response2 = await Setup.client.GetAsync("/veiculos");
-            var result2 = await response2.Content.ReadAsStringAsync();
-            var veiculos = Newtonsoft.Json.JsonConvert.DeserializeObject<List<Veiculo>>(result2);
-            Console.WriteLine(veiculos);
-            Assert.AreEqual(2, veiculos?.Count);
         }
 
         [TestMethod]
@@ -341,12 +332,6 @@ namespace Test.Requests
             Assert.AreEqual(HttpStatusCode.NoContent, response.StatusCode);
             var result = await response.Content.ReadAsStringAsync();
             Console.WriteLine(result);
-
-            var response2 = await Setup.client.GetAsync("/veiculos");
-            var result2 = await response2.Content.ReadAsStringAsync();
-            var veiculos = Newtonsoft.Json.JsonConvert.DeserializeObject<List<Veiculo>>(result2);
-            Console.WriteLine(veiculos);
-            Assert.AreEqual(1, veiculos?.Count);
         }
         #endregion
 

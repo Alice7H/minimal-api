@@ -12,7 +12,6 @@ namespace Test.Domain.Servicos
     {
         private DbContexto CriarContextoDeTeste()
         {
-            // configurar o CofigurationBuilder
             var builder = new ConfigurationBuilder()
             .SetBasePath(Directory.GetCurrentDirectory())
             .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
@@ -27,7 +26,7 @@ namespace Test.Domain.Servicos
         {
             // Arrange
             var contexto = CriarContextoDeTeste();
-            contexto.Database.ExecuteSqlRaw("TRUNCATE TABLE Veiculos"); // <- limpando a tabela.
+            contexto.Database.ExecuteSqlRaw("TRUNCATE TABLE Veiculos");
 
             var veiculo = new Veiculo();
             veiculo.Id = 1;
@@ -49,7 +48,7 @@ namespace Test.Domain.Servicos
         {
             // Arrange
             var contexto = CriarContextoDeTeste();
-            contexto.Database.ExecuteSqlRaw("TRUNCATE TABLE Veiculos"); // <- limpando a tabela.
+            contexto.Database.ExecuteSqlRaw("TRUNCATE TABLE Veiculos");
 
             var veiculo = new Veiculo();
             veiculo.Id = 1;
@@ -72,7 +71,7 @@ namespace Test.Domain.Servicos
         {
             // Arrange
             var contexto = CriarContextoDeTeste();
-            contexto.Database.ExecuteSqlRaw("TRUNCATE TABLE Veiculos"); // <- limpando a tabela.
+            contexto.Database.ExecuteSqlRaw("TRUNCATE TABLE Veiculos");
 
             var veiculo1 = new Veiculo();
             veiculo1.Id = 1;
@@ -102,7 +101,7 @@ namespace Test.Domain.Servicos
         {
             // Arrange
             var contexto = CriarContextoDeTeste();
-            contexto.Database.ExecuteSqlRaw("TRUNCATE TABLE Veiculos"); // <- limpando a tabela.
+            contexto.Database.ExecuteSqlRaw("TRUNCATE TABLE Veiculos");
 
             var veiculo = new Veiculo();
             veiculo.Id = 1;
@@ -137,7 +136,7 @@ namespace Test.Domain.Servicos
         {
             // Arrange
             var contexto = CriarContextoDeTeste();
-            contexto.Database.ExecuteSqlRaw("TRUNCATE TABLE Veiculos"); // <- limpando a tabela.
+            contexto.Database.ExecuteSqlRaw("TRUNCATE TABLE Veiculos");
 
             var veiculo = new Veiculo();
             veiculo.Id = 1;
